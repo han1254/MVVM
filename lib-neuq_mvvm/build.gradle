@@ -1,0 +1,79 @@
+apply plugin: 'com.android.library'
+apply plugin: "androidx.navigation.safeargs"
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+repositories {
+    flatDir {
+        rootProject.allprojects.each {
+            dir project(it.path).file('libs')
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.constraint_layout
+    testImplementation deps.androidx.test_junit
+    androidTestImplementation deps.androidx.androidx_test_junit
+    androidTestImplementation deps.androidx.androidx_test_espresso
+
+    implementation deps.tools.room
+    implementation deps.tools.room_for_rxjava2
+    implementation deps.tools.glide
+    implementation deps.tools.gson
+    implementation deps.tools.lifecycle_extension
+    implementation deps.tools.lifecycle_livedata
+    implementation deps.tools.lifecycle_viewmodel
+    implementation deps.tools.lifecycle_rx2livedata
+    implementation deps.tools.paging
+    implementation deps.tools.recyclerview
+    implementation deps.tools.viewpager2
+    implementation deps.tools.material
+    implementation deps.tools.navigation
+    implementation deps.tools.navigation_ui
+    implementation deps.tools.retrofit
+    implementation deps.tools.rxjava
+    implementation deps.tools.autodispose_archcompontents
+    implementation deps.tools.autodispose
+    implementation deps.tools.retrofit_rxjava_adapter
+    implementation deps.tools.okhttp
+    implementation deps.tools.okhttpinterceptor
+    implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
+
+    annotationProcessor deps.espresso.room_compiler
+    annotationProcessor deps.espresso.glide_compiler
+
+}
