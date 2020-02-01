@@ -5,7 +5,7 @@ import com.example.lib_neuq_mvvm.network.rx.DefaultObserver;
 import com.example.lib_neuq_mvvm.network.rx.NetWorkExceptionController;
 import com.example.neuq_mvvm_fragmework.model.Repo;
 import com.example.neuq_mvvm_fragmework.RepoSearchResponse;
-import com.example.neuq_mvvm_fragmework.Repository;
+import com.example.neuq_mvvm_fragmework.model.Repository;
 import com.example.neuq_mvvm_fragmework.model.RequestModel;
 
 import java.util.List;

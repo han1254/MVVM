@@ -1,12 +1,10 @@
 package com.example.neuq_mvvm_fragmework.mvvm.viewmodel;
 
 
-import android.provider.Contacts;
-
 import com.example.lib_neuq_mvvm.base.view.UIEvent;
 import com.example.lib_neuq_mvvm.base.viewmodel.BaseNetWorkViewModel;
 import com.example.neuq_mvvm_fragmework.model.Repo;
-import com.example.neuq_mvvm_fragmework.Repository;
+import com.example.neuq_mvvm_fragmework.model.Repository;
 import com.example.neuq_mvvm_fragmework.model.RequestModel;
 import com.example.neuq_mvvm_fragmework.paging.ItemFactory;
 import java.util.ArrayList;

@@ -36,7 +36,6 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = LayoutInflater.from(getContext()).inflate(getLayoutId(), container, false);
         mDataBinding = DataBindingUtil.bind(rootView);
-        mViewModel = getViewModel();
         return rootView;
     }
 
@@ -44,6 +43,7 @@ public abstract class BaseFragment<D extends ViewDataBinding, VM extends BaseVie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadData();
+        mViewModel = getViewModel();
         initView();
         setUIReaction();
     }

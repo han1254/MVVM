@@ -7,15 +7,17 @@ import com.example.lib_neuq_mvvm.base.viewmodel.BaseViewModel;
 import com.example.neuq_mvvm_fragmework.R;
 import com.example.neuq_mvvm_fragmework.databinding.ActivityTabTestBinding;
 import com.example.neuq_mvvm_fragmework.mvvm.viewmodel.TabTestViewModel;
+import com.example.neuq_mvvm_fragmework.mvvm.viewmodel.TabTestViewModelFactory;
 
 import androidx.lifecycle.ViewModelProviders;
 
 public class TabTestActivity extends BaseNetWorkActivity<ActivityTabTestBinding, TabTestViewModel> {
 
+    private TabTestViewModelFactory factory;
 
     @Override
     protected TabTestViewModel getViewModel() {
-        return ViewModelProviders.of(this).get(TabTestViewModel.class);
+        return factory.create(TabTestViewModel.class);
     }
 
     @Override
@@ -30,7 +32,7 @@ public class TabTestActivity extends BaseNetWorkActivity<ActivityTabTestBinding,
 
     @Override
     protected void loadData() {
-
+       factory = new TabTestViewModelFactory();
     }
 
 }

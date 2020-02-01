@@ -1,4 +1,4 @@
-package com.example.neuq_mvvm_fragmework.mvvm;
+package com.example.neuq_mvvm_fragmework.model;
 
 import com.example.lib_neuq_mvvm.base.model.BaseRepository;
 

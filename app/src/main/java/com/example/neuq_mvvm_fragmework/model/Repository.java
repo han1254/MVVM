@@ -1,4 +1,4 @@
-package com.example.neuq_mvvm_fragmework;
+package com.example.neuq_mvvm_fragmework.model;
 
 import com.example.lib_neuq_mvvm.base.model.BaseRepository;
 import com.example.lib_neuq_mvvm.network.base.NetWorkStatus;
@@ -8,6 +8,8 @@ import com.example.lib_neuq_mvvm.network.retrofit.BaseResponse;
 import com.example.lib_neuq_mvvm.network.retrofit.GetApiService;
 import com.example.lib_neuq_mvvm.network.rx.DefaultObserver;
 import com.example.lib_neuq_mvvm.network.rx.NetWorkExceptionController;
+import com.example.neuq_mvvm_fragmework.Api;
+import com.example.neuq_mvvm_fragmework.RepoSearchResponse;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

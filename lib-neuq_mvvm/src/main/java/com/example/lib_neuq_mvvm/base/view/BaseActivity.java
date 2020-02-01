@@ -29,8 +29,8 @@ public abstract class BaseActivity<D extends ViewDataBinding, V extends BaseView
         mDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
         assert mDataBinding != null;
         mDataBinding.setLifecycleOwner(this);
-        mViewModel = getViewModel();
         loadData();
+        mViewModel = getViewModel();
         initView();
         setUIReaction();
     }
