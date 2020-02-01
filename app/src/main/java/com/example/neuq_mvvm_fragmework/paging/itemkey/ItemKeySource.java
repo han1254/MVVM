@@ -1,6 +1,7 @@
 package com.example.neuq_mvvm_fragmework.paging.itemkey;
 
 import com.example.lib_neuq_mvvm.network.base.NetWorkStatus;
+import com.example.lib_neuq_mvvm.network.exception.NetWorkException;
 import com.example.lib_neuq_mvvm.network.rx.DefaultObserver;
 import com.example.lib_neuq_mvvm.network.rx.NetWorkExceptionController;
 import com.example.neuq_mvvm_fragmework.model.Repo;
@@ -29,11 +30,16 @@ public class ItemKeySource extends ItemKeyedDataSource<Long, Repo> {
     private MutableLiveData<RequestModel> queryData = new MutableLiveData<>();
     private MutableLiveData<List<Repo>> resultData = new MutableLiveData<>();
     private MutableLiveData<NetWorkStatus> statusLiveData = new MutableLiveData<>();
+    private MutableLiveData<NetWorkException> error;
 
-    public ItemKeySource(MutableLiveData<RequestModel> queryData, MutableLiveData<List<Repo>> resultData, MutableLiveData<NetWorkStatus> statusLiveData) {
+    public ItemKeySource(MutableLiveData<RequestModel> queryData,
+                         MutableLiveData<List<Repo>> resultData,
+                         MutableLiveData<NetWorkStatus> statusLiveData,
+                         MutableLiveData<NetWorkException> error) {
         this.queryData = queryData;
         this.resultData = resultData;
         this.statusLiveData = statusLiveData;
+        this.error = error;
     }
 
 
@@ -87,26 +93,31 @@ public class ItemKeySource extends ItemKeyedDataSource<Long, Repo> {
                     @Override
                     public void badNetWorkError() {
                         statusLiveData.postValue(NetWorkStatus.FAILED);
+                        error.postValue(NetWorkException.BAD_NETWORK);
                     }
 
                     @Override
                     public void connectError() {
                         statusLiveData.postValue(NetWorkStatus.FAILED);
+                        error.postValue(NetWorkException.CONNECT_ERROR);
                     }
 
                     @Override
                     public void timeOutError() {
                         statusLiveData.postValue(NetWorkStatus.FAILED);
+                        error.postValue(NetWorkException.CONNECT_TIMEOUT);
                     }
 
                     @Override
                     public void parseError() {
                         statusLiveData.postValue(NetWorkStatus.FAILED);
+                        error.postValue(NetWorkException.PARSE_ERROR);
                     }
 
                     @Override
                     public void unknownError() {
                         statusLiveData.postValue(NetWorkStatus.FAILED);
+                        error.postValue(NetWorkException.UNKNOWN_ERROR);
                     }
                 }) {
                     @Override

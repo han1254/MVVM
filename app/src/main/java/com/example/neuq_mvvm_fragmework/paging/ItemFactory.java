@@ -1,6 +1,7 @@
 package com.example.neuq_mvvm_fragmework.paging;
 
 import com.example.lib_neuq_mvvm.network.base.NetWorkStatus;
+import com.example.lib_neuq_mvvm.network.exception.NetWorkException;
 import com.example.neuq_mvvm_fragmework.model.Repo;
 import com.example.neuq_mvvm_fragmework.model.RequestModel;
 import com.example.neuq_mvvm_fragmework.paging.itemkey.ItemKeySource;
@@ -22,15 +23,20 @@ public class ItemFactory extends DataSource.Factory<Long, Repo> {
     private MutableLiveData<RequestModel> requestModelLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Repo>> repoLiveData = new MutableLiveData<>();
     private MutableLiveData<NetWorkStatus> statusLiveData;
-    public ItemFactory(MutableLiveData<RequestModel> requestModelLiveData, MutableLiveData<List<Repo>> repoLiveData, MutableLiveData<NetWorkStatus> statusLiveData) {
+    private MutableLiveData<NetWorkException> error;
+    public ItemFactory(MutableLiveData<RequestModel> requestModelLiveData,
+                       MutableLiveData<List<Repo>> repoLiveData,
+                       MutableLiveData<NetWorkStatus> statusLiveData,
+                       MutableLiveData<NetWorkException> error) {
         this.requestModelLiveData = requestModelLiveData;
         this.repoLiveData = repoLiveData;
         this.statusLiveData = statusLiveData;
+        this.error = error;
     }
 
     @NonNull
     @Override
     public DataSource<Long, Repo> create() {
-        return new ItemKeySource(requestModelLiveData, repoLiveData, statusLiveData);
+        return new ItemKeySource(requestModelLiveData, repoLiveData, statusLiveData, error);
     }
 }

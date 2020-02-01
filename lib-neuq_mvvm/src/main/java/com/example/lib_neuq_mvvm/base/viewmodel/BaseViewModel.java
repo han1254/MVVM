@@ -47,6 +47,8 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
     public BaseViewModel() {
         this.uiController = new UIController();
+        uiController.getShowToastEvent().setAuto(isToastAuto());
+        uiController.getShowDialogEvent().setAuto(isDialogAuto());
         if (getDataBindList() != null) {
             for (UIEvent event :
                     getDataBindList()) {

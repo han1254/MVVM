@@ -33,7 +33,7 @@ public class TestViewModel extends BaseNetWorkViewModel<Repository> {
         this.repos = new MutableLiveData<>();
         this.request = new MutableLiveData<>();
         this.pagedList = new MutableLiveData<>();
-        pagedList = (new LivePagedListBuilder(new ItemFactory(request, repos, mStatus), config)).build();
+        pagedList = (new LivePagedListBuilder(new ItemFactory(request, repos, mStatus, mError), config)).build();
     }
 
     public MutableLiveData<RequestModel> getRequest() {
@@ -61,13 +61,13 @@ public class TestViewModel extends BaseNetWorkViewModel<Repository> {
 
     @Override
     public Boolean isToastAuto() {
-        return true;
+        return false;
     }
 
     @Override
     public List<UIEvent> getDataBindList() {
         List<UIEvent> events = new ArrayList<>();
         events.add(UIEvent.PROGRESS);
-        return events;
+        return null;
     }
 }
