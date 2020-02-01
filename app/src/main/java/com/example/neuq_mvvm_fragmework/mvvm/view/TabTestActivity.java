@@ -17,6 +17,7 @@ public class TabTestActivity extends BaseNetWorkActivity<ActivityTabTestBinding,
 
     @Override
     protected TabTestViewModel getViewModel() {
+        factory = new TabTestViewModelFactory();
         return factory.create(TabTestViewModel.class);
     }
 
@@ -32,7 +33,8 @@ public class TabTestActivity extends BaseNetWorkActivity<ActivityTabTestBinding,
 
     @Override
     protected void loadData() {
-       factory = new TabTestViewModelFactory();
+        //getViewModel()方法比loadData()更先调用，一定切记不要在getViewModel中调用
+        //在loadData()中初始化的数据
     }
 
 }

@@ -5,6 +5,8 @@ import android.view.View;
 import com.example.lib_neuq_mvvm.base.view.BaseActivity;
 import com.example.lib_neuq_mvvm.base.recyclerview.adapter.listadapter.BaseDiffUtil;
 import com.example.lib_neuq_mvvm.base.view.BaseNetWorkActivity;
+import com.example.lib_neuq_mvvm.base.viewmodel.BaseViewModel;
+import com.example.lib_neuq_mvvm.network.exception.NetWorkException;
 import com.example.neuq_mvvm_fragmework.R;
 import com.example.neuq_mvvm_fragmework.databinding.ActivityMainBinding;
 import com.example.neuq_mvvm_fragmework.databinding.ListItemPlantBinding;
@@ -61,5 +63,11 @@ public class MainActivity extends BaseNetWorkActivity<ActivityMainBinding, TestV
 
     }
 
-
+    @Override
+    public void onNetFailed(NetWorkException e) {
+        if (e == NetWorkException.UNKNOWN_ERROR) {
+            BaseViewModel.ToastWrapper wrapper = new BaseViewModel.ToastWrapper("未知错误", true);
+            mViewModel.getUIController().getShowToastEvent().setValue(wrapper);
+        }
+    }
 }

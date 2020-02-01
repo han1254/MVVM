@@ -21,8 +21,17 @@ public abstract class BaseNetWorkViewModel<R extends BaseRepository> extends Bas
 
     public BaseNetWorkViewModel(R repository) {
         this.repository = repository;
-        mError = repository.getError() == null ? new UnPeekLiveData<>() : repository.getError();
-        mStatus = repository.getStatus() == null ? new UnPeekLiveData<>() : repository.getStatus();
+        if (repository.getError() == null) {
+            mError = new UnPeekLiveData<>();
+        } else {
+            mError = repository.getError();
+        }
+
+        if (repository.getStatus() == null) {
+            mStatus = new UnPeekLiveData<>();
+        } else {
+            mStatus = repository.getStatus();
+        }
     }
 
     public Boolean getIsAutoNetWorkStatus() {

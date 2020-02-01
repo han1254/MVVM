@@ -1,6 +1,8 @@
 package com.example.lib_neuq_mvvm.network.rx;
 
 import android.net.ParseException;
+import android.util.Log;
+
 import com.example.lib_neuq_mvvm.network.exception.NetWorkException;
 import com.example.lib_neuq_mvvm.utils.ContextUtil;
 import com.example.lib_neuq_mvvm.utils.ToastUtil;
@@ -39,7 +41,7 @@ public abstract class DefaultObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
-        ToastUtil.showLong(ContextUtil.getInstance().build().getContext(), "网络请求成功");
+        Log.d("SUCCESS:", "网络成功");
         onSuccess(t);
     }
 
@@ -71,14 +73,18 @@ public abstract class DefaultObserver<T> implements Observer<T> {
 
     public void onException(NetWorkException status) {
         switch (status) {
+            case BAD_NETWORK:
+                Log.d("BAD_NETWORK_ERROR:", "onException: 网络状态较差");
             case CONNECT_ERROR:
-                ToastUtil.show(ContextUtil.getInstance().build().getContext(), "连接失败。。。");
+                Log.d("CONNECT_ERROR:", "onException: 连接问题");
                 break;
             case CONNECT_TIMEOUT:
-                ToastUtil.show(ContextUtil.getInstance().build().getContext(), "连接超时。。。");
+                Log.d("TIMEOUT_ERROR:", "onException: 连接超时");
                 break;
+            case PARSE_ERROR:
+                Log.d("PARSE_ERROR:", "onException: 解析错误");
             default:
-                ToastUtil.show(ContextUtil.getInstance().build().getContext(), "反正你就是错了。。。");
+                Log.d("UNKNOWN_ERROR:", "onException: 未知错误");
                 break;
         }
     }

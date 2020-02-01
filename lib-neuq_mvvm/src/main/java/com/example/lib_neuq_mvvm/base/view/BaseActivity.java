@@ -25,12 +25,11 @@ public abstract class BaseActivity<D extends ViewDataBinding, V extends BaseView
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
         mDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
         assert mDataBinding != null;
         mDataBinding.setLifecycleOwner(this);
-        loadData();
         mViewModel = getViewModel();
+        loadData();
         initView();
         setUIReaction();
     }

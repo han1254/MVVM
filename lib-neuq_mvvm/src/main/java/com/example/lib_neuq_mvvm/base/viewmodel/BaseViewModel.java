@@ -205,7 +205,7 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
         }
     }
 
-    public class ToastWrapper {
+    public static class ToastWrapper {
         private String content;
         private Boolean isLong;
 
