@@ -66,6 +66,15 @@
 <!--            app:elevation="8dp"/>-->
 
 
+        <ProgressBar
+            android:id="@+id/progressbar2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="60dp"
+
+            />
 
     </RelativeLayout>
 

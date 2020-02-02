@@ -3,6 +3,7 @@ package com.example.lib_neuq_mvvm.base.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.lib_neuq_mvvm.base.viewmodel.BaseViewModel;
 import com.example.lib_neuq_mvvm.utils.ToastUtil;
@@ -26,7 +27,9 @@ public abstract class BaseActivity<D extends ViewDataBinding, V extends BaseView
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
-        assert mDataBinding != null;
+        if (mDataBinding == null) {
+            Log.d("LOST", "onCreate: DataBinding couldn't be found");
+        }
         mDataBinding.setLifecycleOwner(this);
         mViewModel = getViewModel();
         loadData();

@@ -1,6 +1,7 @@
 package com.example.neuq_mvvm_fragmework.mvvm.view;
 
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.lib_neuq_mvvm.base.recyclerview.adapter.listadapter.BaseDiffUtil;
 import com.example.lib_neuq_mvvm.base.view.BaseNetWorkActivity;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseNetWorkActivity<ActivityMainBinding, TestV
     @Override
     public void onNetDone() {
         mViewModel.getUIController().getShowProgressBarEvent().setValue(false);
+        Toast.makeText(this, "完成了完成了", Toast.LENGTH_LONG).show();
     }
 
     @Override
