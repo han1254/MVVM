@@ -29,8 +29,9 @@ public abstract class BaseActivity<D extends ViewDataBinding, V extends BaseView
         mDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
         if (mDataBinding == null) {
             Log.d("LOST", "onCreate: DataBinding couldn't be found");
+        } else {
+            mDataBinding.setLifecycleOwner(this);
         }
-        mDataBinding.setLifecycleOwner(this);
         mViewModel = getViewModel();
         loadData();
         initView();
