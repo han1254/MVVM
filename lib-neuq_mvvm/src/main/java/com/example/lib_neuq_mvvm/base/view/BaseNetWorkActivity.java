@@ -1,15 +1,11 @@
 package com.example.lib_neuq_mvvm.base.view;
-
-import android.accounts.NetworkErrorException;
 import android.os.Bundle;
-
 import com.example.lib_neuq_mvvm.base.viewmodel.BaseNetWorkViewModel;
 import com.example.lib_neuq_mvvm.network.base.NetWorkStatus;
 import com.example.lib_neuq_mvvm.network.exception.NetWorkException;
-
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Observer;
+
 
 /**
  * Time:2020/1/31 10:55

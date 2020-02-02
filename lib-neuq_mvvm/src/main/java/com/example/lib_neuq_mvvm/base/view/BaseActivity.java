@@ -1,6 +1,5 @@
 package com.example.lib_neuq_mvvm.base.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,9 +39,9 @@ public abstract class BaseActivity<D extends ViewDataBinding, V extends BaseView
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mDataBinding.unbind();
         mViewModel = null;
+        super.onDestroy();
     }
 
     /**
@@ -159,8 +158,10 @@ public abstract class BaseActivity<D extends ViewDataBinding, V extends BaseView
      */
     public void startActivity(Class<?> clazz, Bundle bundle, String name) {
         Intent intent = new Intent(this, clazz);
-        if (bundle != null && name != null) {
+        if (bundle != null && name != null && !"".equals(name)) {
             intent.putExtra(name, bundle);
+        } else {
+            Log.d("NULL_PARAMS", "startActivity: 开启activity数据不足");
         }
         startActivity(intent);
     }

@@ -74,7 +74,10 @@ public class MainActivity extends BaseNetWorkActivity<ActivityMainBinding, TestV
         if (e == NetWorkException.BAD_NETWORK) {
             BaseViewModel.ToastWrapper wrapper = new BaseViewModel.ToastWrapper("HTTP错误", true);
             mViewModel.getUIController().getShowToastEvent().setValue(wrapper);
+            mViewModel.getUIController().getShowProgressBarEvent().setValue(false);
         }
+
+
     }
 
     /**

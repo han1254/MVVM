@@ -90,21 +90,20 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
 
     @Override
     public void showDialog(String content) {
-        uiController.showDialogEvent.setAuto(isDialogAuto());
-        uiController.showDialogEvent.postValue(content);
+        uiController.getShowDialogEvent().postValue(content);
     }
 
     @Override
     public void dismissDialog() {
-        uiController.dismissDialogEvent.setAuto(isDialogAuto());
+
         uiController.getDismissDialogEvent().call();
     }
 
 
     @Override
     public void showToast(String content, Boolean isLong) {
-        uiController.showToastEvent.setAuto(isToastAuto());
-        uiController.showToastEvent.postValue(new ToastWrapper(content, isLong));
+
+        uiController.getShowToastEvent().postValue(new ToastWrapper(content, isLong));
     }
 
     @Override
@@ -138,13 +137,17 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
      * 是否自动显示Dialog
      * @return
      */
-    public abstract Boolean isDialogAuto();
+    public  Boolean isDialogAuto() {
+        return false;
+    }
 
     /**
      * 是否自动显示Toast
      * @return
      */
-    public abstract Boolean isToastAuto();
+    public Boolean isToastAuto() {
+        return false;
+    }
 
     /**
      * 由于单一观察者模式的局限，如果一个UIEventLiveData
@@ -163,47 +166,69 @@ public abstract class BaseViewModel extends ViewModel implements IViewModel {
         private UIEventSingleLiveData<Void> finishEvent;
         private UIEventSingleLiveData<Object> customizeEvent;
 
-       UIController() {
-          showDialogEvent = new UIEventSingleLiveData<>(UIEvent.DIALOG);
-          showToastEvent = new UIEventSingleLiveData<>(UIEvent.TOAST);
-          dismissDialogEvent = new UIEventSingleLiveData<>(UIEvent.TOAST);
-          showProgressBarEvent = new UIEventSingleLiveData<>(UIEvent.PROGRESS);
-          startActivityEvent = new UIEventSingleLiveData<>(UIEvent.START_ACTIVITY);
-          transToFragmentEvent = new UIEventSingleLiveData<>(UIEvent.TRANS_TO_FRAGMENT);
-          finishEvent = new UIEventSingleLiveData<>(UIEvent.FINISH);
-          customizeEvent = new UIEventSingleLiveData<>(UIEvent.CUSTOMISE);
-        }
-
         public UIEventSingleLiveData<ToastWrapper> getShowToastEvent() {
-            return showToastEvent;
+
+           showToastEvent = getUIEventLiveData(UIEvent.TOAST, showToastEvent);
+           return showToastEvent;
+
         }
 
         public UIEventSingleLiveData<String> getShowDialogEvent() {
-            return showDialogEvent;
+
+           showDialogEvent = getUIEventLiveData(UIEvent.DIALOG, showDialogEvent);
+           return showDialogEvent;
+
         }
 
         public UIEventSingleLiveData<Void> getDismissDialogEvent() {
+
+           dismissDialogEvent = getUIEventLiveData(UIEvent.DIALOG, dismissDialogEvent);
             return dismissDialogEvent;
+
         }
 
         public UIEventSingleLiveData<Boolean> getShowProgressBarEvent() {
+
+           showProgressBarEvent = getUIEventLiveData(UIEvent.PROGRESS, showProgressBarEvent);
             return showProgressBarEvent;
         }
 
         public UIEventSingleLiveData<Map<String, Object>> getStartActivityEvent() {
-            return startActivityEvent;
+
+           startActivityEvent = getUIEventLiveData(UIEvent.START_ACTIVITY, startActivityEvent);
+           return startActivityEvent;
+
         }
 
         public UIEventSingleLiveData<Bundle> getTransToFragmentEvent() {
-            return transToFragmentEvent;
+
+           transToFragmentEvent = getUIEventLiveData(UIEvent.TRANS_TO_FRAGMENT, transToFragmentEvent);
+           return transToFragmentEvent;
+
         }
 
         public UIEventSingleLiveData<Void> getFinishEvent() {
-            return finishEvent;
+
+           finishEvent = getUIEventLiveData(UIEvent.FINISH, finishEvent);
+           return finishEvent;
+
         }
 
         public UIEventSingleLiveData<Object> getCustomizeEvent() {
-            return customizeEvent;
+
+           customizeEvent = getUIEventLiveData(UIEvent.CUSTOMISE, customizeEvent);
+           return customizeEvent;
+
+        }
+
+        private <T> UIEventSingleLiveData <T> getUIEventLiveData(UIEvent event, UIEventSingleLiveData<T> liveData) {
+
+           if (liveData == null) {
+               liveData = new UIEventSingleLiveData<>(event);
+           }
+
+           return liveData;
+
         }
     }
 

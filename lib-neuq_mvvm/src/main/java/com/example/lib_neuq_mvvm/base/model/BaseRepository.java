@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable;
  * Email: 1254763408@qq.com
  * Function:
  */
-public class BaseRepository implements IRepository{
+public class BaseRepository implements IRepository {
 
     private UnPeekLiveData<NetWorkStatus> status;
     private UnPeekLiveData<NetWorkException> error;

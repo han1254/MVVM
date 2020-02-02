@@ -2,6 +2,8 @@ package com.example.neuq_mvvm_fragmework.mvvm.viewmodel;
 
 import com.example.lib_neuq_mvvm.base.view.UIEvent;
 import com.example.lib_neuq_mvvm.base.viewmodel.BaseNetWorkViewModel;
+import com.example.lib_neuq_mvvm.databinding.NetworkStatusLayoutBindingImpl;
+import com.example.lib_neuq_mvvm.network.base.NetWorkStatus;
 import com.example.lib_neuq_mvvm.network.base.Resource;
 import com.example.neuq_mvvm_fragmework.model.TabTestRepository;
 
@@ -18,6 +20,8 @@ import androidx.lifecycle.MutableLiveData;
 public class TabTestViewModel extends BaseNetWorkViewModel<TabTestRepository> {
 
     private MutableLiveData<Resource<String>> liveData;
+    private MutableLiveData<NetWorkStatus> mBannerStatus;
+    private MutableLiveData<NetWorkStatus> mGoodsStatus;
 
     public TabTestViewModel(TabTestRepository repository) {
         super(repository);

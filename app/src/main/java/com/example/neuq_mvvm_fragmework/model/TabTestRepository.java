@@ -10,6 +10,7 @@ import com.example.lib_neuq_mvvm.network.rx.DefaultObserver;
 import com.example.lib_neuq_mvvm.network.rx.NetWorkExceptionController;
 import com.example.neuq_mvvm_fragmework.Api;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -23,6 +24,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TabTestRepository extends BaseRepository {
 
+
+
     public MutableLiveData<Resource<String>> getRemote() {
         MutableLiveData<Resource<String>> liveData = new MutableLiveData<>();
 
@@ -35,27 +38,27 @@ public class TabTestRepository extends BaseRepository {
                 .subscribe(new DefaultObserver<BaseResponse<String>>(new NetWorkExceptionController() {
                     @Override
                     public void badNetWorkError() {
-                        setError(NetWorkException.BAD_NETWORK);
+
                     }
 
                     @Override
                     public void connectError() {
-                        setError(NetWorkException.CONNECT_ERROR);
+
                     }
 
                     @Override
                     public void timeOutError() {
-                        setError(NetWorkException.CONNECT_TIMEOUT);
+
                     }
 
                     @Override
                     public void parseError() {
-                        setError(NetWorkException.PARSE_ERROR);
+
                     }
 
                     @Override
                     public void unknownError() {
-                        setError(NetWorkException.UNKNOWN_ERROR);
+
                     }
                 }) {
                     @Override
