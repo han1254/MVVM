@@ -19,21 +19,24 @@ public class AppExecutors {
     private Executor networkIO;
     private Executor mainThread;
 
-    public AppExecutors() {
-        this.disIO = Executors.newSingleThreadExecutor();
-        this.networkIO = Executors.newFixedThreadPool(3);
-        this.mainThread = new MainThreadExecutor();
-    }
-
     public Executor getDisIO() {
+        if (disIO == null) {
+            disIO = Executors.newSingleThreadExecutor();
+        }
         return disIO;
     }
 
     public Executor getNetworkIO() {
+        if (networkIO == null) {
+            networkIO = Executors.newFixedThreadPool(3);
+        }
         return networkIO;
     }
 
     public Executor getMainThread() {
+        if (mainThread == null) {
+            mainThread = new MainThreadExecutor();
+        }
         return mainThread;
     }
 

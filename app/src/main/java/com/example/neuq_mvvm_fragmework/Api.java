@@ -1,6 +1,7 @@
 package com.example.neuq_mvvm_fragmework;
 
 import com.example.lib_neuq_mvvm.network.retrofit.BaseResponse;
+import com.example.neuq_mvvm_fragmework.model.MsgModel;
 
 import io.reactivex.Observable;
 import retrofit2.Call;
@@ -15,7 +16,7 @@ import retrofit2.http.Query;
  */
 public interface Api {
     @GET("getSongPoetry")
-    Observable<BaseResponse<String>> getString(@Query("page") int page, @Query("count") int count);
+    Observable<MsgModel> getString(@Query("page") int page, @Query("count") int count);
 
 
     @GET("search/repositories?sort=stars")

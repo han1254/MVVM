@@ -29,60 +29,6 @@ public class Repository extends BaseRepository {
 
     private MutableLiveData<Resource<String>> text = new MutableLiveData<>();
 
-    public void getRemote(MutableLiveData<Resource<String>> liveData) {
-
-        liveData.setValue(Resource.loading("正在请求"));
-
-        GetApiService.getApiService(Api.class, "https://api.apiopen.top/")
-                .getString(1, 20)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<BaseResponse<String>>(new NetWorkExceptionController() {
-                    @Override
-                    public void badNetWorkError() {
-                        setError(NetWorkException.BAD_NETWORK);
-                    }
-
-                    @Override
-                    public void connectError() {
-                        setError(NetWorkException.CONNECT_ERROR);
-                    }
-
-                    @Override
-                    public void timeOutError() {
-                        setError(NetWorkException.CONNECT_TIMEOUT);
-                    }
-
-                    @Override
-                    public void parseError() {
-                        setError(NetWorkException.PARSE_ERROR);
-                    }
-
-                    @Override
-                    public void unknownError() {
-                        setError(NetWorkException.UNKNOWN_ERROR);
-                    }
-                }) {
-                    @Override
-                    public void onSuccess(BaseResponse<String> stringBaseResponse) {
-                        liveData.postValue(Resource.success(stringBaseResponse.getContent()));
-                        setStatus(NetWorkStatus.DONE);
-                    }
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addDisposable(d);
-                        setStatus(NetWorkStatus.LOADING);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        setStatus(NetWorkStatus.DONE);
-                    }
-                });
-
-    }
-
     public static Observable<RepoSearchResponse> getRepos(String name, int page, int count) {
         return GetApiService.getApiService(Api.class, "https://api.github.com/")
                 .getRepos(name, page, count);

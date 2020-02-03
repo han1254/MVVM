@@ -1,18 +1,17 @@
 package com.example.neuq_mvvm_fragmework.model;
 
 import com.example.lib_neuq_mvvm.base.model.BaseRepository;
+import com.example.lib_neuq_mvvm.livedata.LiveDataBus;
+import com.example.lib_neuq_mvvm.network.base.AppExecutors;
+import com.example.lib_neuq_mvvm.network.base.NetWorkSingleResource;
 import com.example.lib_neuq_mvvm.network.base.NetWorkStatus;
 import com.example.lib_neuq_mvvm.network.base.Resource;
-import com.example.lib_neuq_mvvm.network.exception.NetWorkException;
-import com.example.lib_neuq_mvvm.network.retrofit.BaseResponse;
 import com.example.lib_neuq_mvvm.network.retrofit.GetApiService;
 import com.example.lib_neuq_mvvm.network.rx.DefaultObserver;
 import com.example.lib_neuq_mvvm.network.rx.NetWorkExceptionController;
 import com.example.neuq_mvvm_fragmework.Api;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -24,62 +23,92 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TabTestRepository extends BaseRepository {
 
-
-
-    public MutableLiveData<Resource<String>> getRemote() {
+    public MutableLiveData<MsgModel> getRemote() {
         MutableLiveData<Resource<String>> liveData = new MutableLiveData<>();
 
         liveData.setValue(Resource.loading("正在请求"));
 
-        GetApiService.getApiService(Api.class, "https://api.apiopen.top/")
-                .getString(1, 20)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<BaseResponse<String>>(new NetWorkExceptionController() {
-                    @Override
-                    public void badNetWorkError() {
+       return  (new  NetWorkSingleResource<MsgModel>(new AppExecutors()) {
 
-                    }
+            @Override
+            public LiveData<MsgModel> getRemoteSource() {
+                MutableLiveData<MsgModel> liveData1 = new MutableLiveData<>();
+                GetApiService.getApiService(Api.class, "https://api.apiopen.top/")
+                        .getString(1, 20)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new DefaultObserver<MsgModel>(new NetWorkExceptionController() {
+                            @Override
+                            public void badNetWorkError() {
 
-                    @Override
-                    public void connectError() {
+                            }
 
-                    }
+                            @Override
+                            public void connectError() {
 
-                    @Override
-                    public void timeOutError() {
+                            }
 
-                    }
+                            @Override
+                            public void timeOutError() {
 
-                    @Override
-                    public void parseError() {
+                            }
 
-                    }
+                            @Override
+                            public void parseError() {
 
-                    @Override
-                    public void unknownError() {
+                            }
 
-                    }
-                }) {
-                    @Override
-                    public void onSuccess(BaseResponse<String> stringBaseResponse) {
-                        liveData.postValue(Resource.success(stringBaseResponse.getContent()));
-                        setStatus(NetWorkStatus.DONE);
-                    }
+                            @Override
+                            public void unknownError() {
 
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addDisposable(d);
-                        setStatus(NetWorkStatus.LOADING);
-                    }
+                            }
+                        }) {
+                            @Override
+                            public void onSuccess(MsgModel msgModel) {
+                                liveData1.postValue(msgModel);
+                            }
 
-                    @Override
-                    public void onComplete() {
-                        setStatus(NetWorkStatus.DONE);
-                    }
-                });
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                setStatus(NetWorkStatus.LOADING);
+                            }
 
-        return liveData;
+                            @Override
+                            public void onComplete() {
+                                setStatus(NetWorkStatus.DONE);
+                            }
+                        });
+
+                return liveData1;
+            }
+
+            @Override
+            public LiveData<MsgModel> getLocalSource() {
+                MutableLiveData<MsgModel> t = new MutableLiveData<>();
+                t.postValue(new MsgModel(100, "lalalaa", "这是内容"));
+                return t;
+            }
+
+            @Override
+            public void saveData(MsgModel item) {
+                LiveDataBus.get()
+                        .with("saveData")
+                        .postValue("获得数据并且储存");
+            }
+
+            @Override
+            public void dealNetCode(int code, String msg) {
+                LiveDataBus.get()
+                        .with("getCode")
+                        .postValue(code);
+            }
+
+            @Override
+            public boolean shouldFetch(MsgModel item) {
+                return true;
+            }
+        }).getResult();
+
+//       return resource.getResult();
 
     }
 
