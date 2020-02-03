@@ -4,9 +4,11 @@ import android.view.View;
 
 import com.example.lib_neuq_mvvm.base.view.BaseActivity;
 import com.example.lib_neuq_mvvm.base.view.BaseNetWorkActivity;
+import com.example.lib_neuq_mvvm.base.view.MultiStatusActivity;
 import com.example.lib_neuq_mvvm.base.viewmodel.BaseNetWorkViewModel;
 import com.example.lib_neuq_mvvm.base.viewmodel.BaseViewModel;
 import com.example.lib_neuq_mvvm.livedata.LiveDataBus;
+import com.example.lib_neuq_mvvm.network.base.NetWorkStatus;
 import com.example.lib_neuq_mvvm.network.base.Resource;
 import com.example.lib_neuq_mvvm.utils.ToastUtil;
 import com.example.neuq_mvvm_fragmework.R;
@@ -19,7 +21,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-public class TabTestActivity extends BaseNetWorkActivity<ActivityTabTestBinding, TabTestViewModel> {
+public class TabTestActivity extends MultiStatusActivity<ActivityTabTestBinding, TabTestViewModel> {
 
     private TabTestViewModelFactory factory;
     private MutableLiveData<MsgModel> liveData;
@@ -32,46 +34,72 @@ public class TabTestActivity extends BaseNetWorkActivity<ActivityTabTestBinding,
 
     @Override
     protected void initView() {
-//        liveData.observe(this, new Observer<Resource<String>>() {
-//            @Override
-//            public void onChanged(Resource<String> stringResource) {
-//                mViewModel.getUIController().getShowToastEvent().setValue(new BaseViewModel.ToastWrapper(stringResource.getData(), true));
-//            }
-//        });
+
+        mDataBinding.progressbar2.setVisibility(View.GONE);
+
+        mViewModel.getLiveData().observe(this, n -> {
+            mDataBinding.tvContent1.setText(n.getResult());
+        });
+
+        mViewModel.getLiveData2().observe(this, n ->  {
+            if (n == null) {
+                mDataBinding.tvContent2.setText("数据为空");
+            } else {
+                mDataBinding.tvContent2.setText(n.getResult());
+
+            }
+        });
 
         LiveDataBus.get()
-                .with("saveData", String.class)
+                .with("saveData1", String.class)
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        ToastUtil.showLong(getApplicationContext(), s);
+                        ToastUtil.showLong(getApplicationContext(), "数据1存到本地");
                     }
                 });
-//        LiveDataBus.get()
-//                .with("getCode", Integer.class)
-//                .observe(this, code -> ToastUtil.showLong(this, "接收到Code:" + code));
-        liveData.observe(this, new Observer<MsgModel>() {
-            @Override
-            public void onChanged(MsgModel msgModel) {
-//                mViewModel.getUIController().getShowToastEvent().setValue(new BaseViewModel.ToastWrapper(msgModel.getResult(), true));
-            }
+
+        LiveDataBus.get()
+                .with("saveData2", String.class)
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        mDataBinding.isSave.setText("存储");
+                    }
+                });
+
+        mDataBinding.btnNet.setOnClickListener(v -> {
+
+            mViewModel.getRemote2(true).observe(this, n -> {
+                mDataBinding.tvContent2.setText(n.getResult());
+                mDataBinding.tvSource2.setText("网络");
+
+            });
+//            mViewModel.getRemote2(true);
+//            mDataBinding.tvSource2.setText("网络");
+
+
         });
     }
 
     @Override
-    public void onNetLoading() {
-       mViewModel.getUIController().getShowProgressBarEvent().setValue(true);
+    protected void onMultiStatusChange(String key, NetWorkStatus status) {
+        if (key.equals("strStatus1")) {
+            if (status == NetWorkStatus.LOADING) {
+                mDataBinding.progress1.setVisibility(View.VISIBLE);
+            } else {
+                mDataBinding.progress1.setVisibility(View.GONE);
+            }
+        } else if (key.equals("strStatus2")) {
+            if (status == NetWorkStatus.LOADING) {
+                mDataBinding.tvStatus2.setText("加载中。。。");
+            } else {
+                mDataBinding.tvStatus2.setText("加载完成！( •̀ ω •́ )y");
+            }
+        }
     }
 
-    @Override
-    public void onNetDone() {
-        mViewModel.getUIController().getShowProgressBarEvent().setValue(false);
-    }
 
-    @Override
-    protected void showProgressBar(Boolean isShow) {
-        mDataBinding.progressbar2.setVisibility(isShow ? View.VISIBLE : View.INVISIBLE);
-    }
 
     @Override
     protected int getLayoutId() {

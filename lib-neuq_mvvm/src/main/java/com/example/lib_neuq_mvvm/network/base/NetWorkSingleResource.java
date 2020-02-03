@@ -24,8 +24,8 @@ public abstract class NetWorkSingleResource<T extends INetWorkResponseModel> {
             //一旦获得本地数据，则达到目的，停止对localResource的观察
             //判断接下来的操作
             result.removeSource(localResource);
-            //如果需要从服务器拉取数据
-            if (shouldFetch(localData)) {
+           // 如果需要从服务器拉取数据
+            if (shouldFetch(localResource.getValue())) {
                 fetchRemoteSource(localResource);
             } else {
                 //add
@@ -38,6 +38,7 @@ public abstract class NetWorkSingleResource<T extends INetWorkResponseModel> {
 
     private void fetchRemoteSource(LiveData<T> localResource) {
         LiveData<T> remoteSource = getRemoteSource();
+        T data = remoteSource.getValue();
         result.addSource(localResource, local -> {
             result.postValue(local);
         });
